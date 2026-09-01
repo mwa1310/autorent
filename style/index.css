@@ -1,0 +1,125 @@
+html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        .ecran-connexion {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /*  Panneau gauche : logo + image véhicule  */
+        .panneau-visuel {
+            flex: 1.1;
+            background: url('../images/blade1.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            padding: 48px;
+            position: relative;
+        }
+
+        .logo-autorent {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30%;
+        }
+
+        /*  Panneau droit : carte de connexion */
+        .panneau-formulaire {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: #f7f8fb;
+        }
+
+        .panneau-formulaire img.logo-autorent {
+            display: none;
+            margin: 0 auto 20px auto;
+            width: 200px;
+            position: absolute;
+            top: 20px;
+        }
+
+        .carte-connexion {
+            width: 100%;
+            max-width: 380px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(20, 30, 60, 0.08);
+            padding: 40px 36px;
+        }
+
+        .carte-connexion h2 {
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .carte-connexion .sous-titre {
+            text-align: center;
+            color: #6b7280;
+            font-size: 13.5px;
+            margin-bottom: 28px;
+            line-height: 1.4;
+        }
+
+        .carte-connexion label {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        .carte-connexion .form-control {
+            border-radius: 8px;
+            padding: 10px 14px;
+            border: 1px solid #e2e5eb;
+            font-size: 14px;
+        }
+        .carte-connexion .form-control:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+        }
+
+        .btn-connexion {
+            width: 100%;
+            background: #6366f1;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 11px;
+            border-radius: 8px;
+            margin-top: 10px;
+            transition: background 0.15s ease;
+        }
+        .btn-connexion:hover {
+            background: #5254d1;
+            color: #fff;
+        }
+        .btn-connexion:disabled {
+            opacity: 0.7;
+        }
+
+        /* Erreurs de validation (jQuery Validation Plugin) */
+        label.error {
+            color: #dc3545;
+            font-size: 12.5px;
+            font-weight: 500;
+            margin-top: 4px;
+            display: block;
+        }
+        .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+
+        @media (max-width: 900px) {
+            .panneau-visuel { display: none; }
+            .panneau-formulaire img.logo-autorent { display: block; }
+        }

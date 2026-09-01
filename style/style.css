@@ -1,0 +1,711 @@
+:root {
+    --couleur-primaire: #6366f1;
+    --couleur-primaire-fonce: #5254d1;
+    --fond-sidebar: #10162a;
+    --fond-page: #f5f6fa;
+}
+
+body {
+    background: var(--fond-page);
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ---------------- Sidebar ---------------- */
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: var(--fond-sidebar);
+    color: #d5d8e3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0;
+}
+
+.sidebar .zone-logo-sidebar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 24px 24px;
+    /* border-bottom: 1px solid rgba(255,255,255,0.08); */
+    margin-bottom: 16px;
+}
+/* .sidebar .zone-logo-sidebar .icone-logo {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+} */
+.sidebar .zone-logo-sidebar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.sidebar .zone-logo-sidebar .texte-logo {
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.sidebar .rubrique-titre {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #6b7280;
+    padding: 16px 24px 6px;
+}
+.sidebar .rubrique-titre:first-child {
+    padding-top: 0;
+}
+
+.sidebar .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 24px;
+    color: #b7bccf;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+    border-left: 3px solid transparent;
+}
+.sidebar .menu-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+}
+.sidebar .menu-item.actif {
+    background: rgba(99, 102, 241, 0.15);
+    color: #fff;
+    border-left-color: var(--couleur-primaire);
+}
+.sidebar .menu-item .icone {
+    width: 18px;
+    text-align: center;
+}
+
+.sidebar .pied-sidebar {
+    margin-top: auto;
+    padding: 16px 24px 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar .info-utilisateur {
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+.sidebar .info-role {
+    color: #8990a8;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+.sidebar .btn-deconnexion {
+    color: #f2a3a3;
+    background: none;
+    border: none;
+    font-size: 13px;
+    padding: 8px 0 0;
+    cursor: pointer;
+}
+.sidebar .btn-deconnexion:hover {
+    color: #ff6b6b;
+}
+
+/* ---------------- Contenu principal ---------------- */
+.contenu-principal {
+    margin-left: 250px;
+    padding: 32px 36px;
+}
+
+.entete-page h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.entete-page .sous-titre {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 28px;
+}
+
+/* ---------------- Cartes statistiques ---------------- */
+.carte-stat {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(20, 30, 60, 0.05);
+    border: 1px solid #edeef2;
+}
+.carte-stat .valeur-stat {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e2233;
+}
+.carte-stat .libelle-stat {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 4px;
+}
+.carte-stat .icone-stat {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+/* ---------------- Cartes de liens rapides ---------------- */
+.carte-lien-rapide {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #edeef2;
+    text-decoration: none;
+    color: #1e2233;
+    display: block;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+.carte-lien-rapide:hover {
+    box-shadow: 0 6px 18px rgba(20, 30, 60, 0.08);
+    transform: translateY(-2px);
+    color: #1e2233;
+}
+.carte-lien-rapide .icone-lien {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+.carte-lien-rapide .titre-lien {
+    font-weight: 600;
+    font-size: 14.5px;
+}
+
+@media (max-width: 900px) {
+    .sidebar { display: none; }
+    .contenu-principal { margin-left: 0; }
+}
+
+/* ---------------- Topbar ---------------- */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+.topbar .btn-icone {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #4b5563;
+}
+.topbar .selecteur-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #374151;
+}
+.topbar .zone-droite {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.topbar .cloche-notif {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.topbar .badge-notif {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 999px;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.topbar .profil-utilisateur {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.topbar .avatar-initiales {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--couleur-primaire);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13.5px;
+}
+.topbar .nom-utilisateur-topbar {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1e2233;
+    line-height: 1.2;
+}
+.topbar .role-utilisateur-topbar {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ---------------- Cartes stat avec tendance ---------------- */
+.carte-stat .tendance {
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+.carte-stat .tendance.hausse { color: #16a34a; }
+.carte-stat .tendance.baisse { color: #dc2626; }
+.carte-stat .tendance .contexte {
+    color: #9ca3af;
+    font-weight: 400;
+    margin-left: 4px;
+}
+
+/* ---------------- Panneaux (graphiques, listes) ---------------- */
+.panneau {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #edeef2;
+    padding: 20px;
+    height: 100%;
+}
+.panneau .entete-panneau {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.panneau .entete-panneau h6 {
+    font-weight: 700;
+    font-size: 14.5px;
+    margin: 0;
+}
+.panneau .lien-voir-tout {
+    font-size: 12.5px;
+    color: var(--couleur-primaire);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.legende-donut { list-style: none; padding: 0; margin: 12px 0 0; }
+.legende-donut li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 5px 0;
+    color: #374151;
+}
+.legende-donut .puce { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+.legende-donut .valeur { font-weight: 600; color: #1e2233; }
+
+/* ---------------- Table réservations récentes ---------------- */
+.table-simple { width: 100%; font-size: 13px; }
+.table-simple th {
+    text-transform: uppercase;
+    font-size: 11px;
+    color: #9ca3af;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f1f4;
+}
+.table-simple td {
+    padding: 10px 0;
+    border-bottom: 1px solid #f6f7f9;
+    color: #374151;
+}
+.badge-statut {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+.badge-statut.a-venir   { background: #e8f0fe; color: #2563eb; }
+.badge-statut.en-cours  { background: #e9f7ef; color: #16a34a; }
+.badge-statut.terminee  { background: #f3f4f6; color: #6b7280; }
+.badge-statut.annulee   { background: #fdeaea; color: #dc2626; }
+
+/* ---------------- Activités / Alertes ---------------- */
+.item-activite, .item-alerte {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f6f7f9;
+}
+.item-activite:last-child, .item-alerte:last-child { border-bottom: none; }
+.icone-activite {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+.texte-activite .titre-activite { font-size: 13px; font-weight: 600; color: #1e2233; }
+.texte-activite .sous-activite { font-size: 12px; color: #9ca3af; }
+.temps-activite { font-size: 11.5px; color: #9ca3af; white-space: nowrap; margin-left: auto; }
+
+.liste-top-vehicules { list-style: none; padding: 0; margin: 0; }
+.liste-top-vehicules li {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 13px;
+    border-bottom: 1px solid #f6f7f9;
+}
+.liste-top-vehicules li:last-child { border-bottom: none; }
+.rang-vehicule {
+    width: 20px;
+    color: #9ca3af;
+    font-weight: 600;
+}
+.nb-locations-vehicule { margin-left: auto; color: #6b7280; font-size: 12.5px; }
+
+/* ================= Barre supérieure (topbar) ================= */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+.topbar .btn-hamburger {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #4b5563;
+    margin-right: 12px;
+}
+.topbar .selecteur-date {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.topbar .zone-droite {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.topbar .cloche-notif {
+    position: relative;
+    font-size: 19px;
+    color: #4b5563;
+    cursor: pointer;
+}
+.topbar .badge-notif {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.topbar .zone-avatar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.topbar .avatar-initiales {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--couleur-primaire);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.topbar .nom-utilisateur-topbar {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #1e2233;
+    line-height: 1.1;
+}
+.topbar .role-utilisateur-topbar {
+    font-size: 11.5px;
+    color: #6b7280;
+}
+
+/* ================= En-tête de page ================= */
+.entete-page h1 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ================= Cartes statistiques avec tendance ================= */
+.carte-stat .tendance {
+    font-size: 12px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.carte-stat .tendance.positive { color: #16a34a; }
+.carte-stat .tendance .contexte-tendance { color: #9ca3af; font-weight: 400; }
+
+/* ================= Cartes graphiques ================= */
+.carte-graphique {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #edeef2;
+    box-shadow: 0 2px 10px rgba(20, 30, 60, 0.04);
+}
+.carte-graphique .entete-carte {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.carte-graphique .entete-carte h6 {
+    font-weight: 700;
+    font-size: 14.5px;
+    margin: 0;
+}
+.carte-graphique .lien-voir-tout {
+    font-size: 12.5px;
+    color: var(--couleur-primaire);
+    text-decoration: none;
+    font-weight: 600;
+}
+.carte-graphique select.selecteur-periode {
+    font-size: 12.5px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #4b5563;
+}
+
+/* ================= Légende des anneaux (donut) ================= */
+.legende-donut {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+    font-size: 13px;
+}
+.legende-donut li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+.legende-donut .puce-couleur {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+.legende-donut .libelle-legende {
+    display: flex;
+    align-items: center;
+    color: #374151;
+}
+.legende-donut .valeur-legende {
+    color: #6b7280;
+    font-weight: 500;
+}
+.conteneur-donut {
+    position: relative;
+}
+.total-donut {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.total-donut .chiffre-total {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e2233;
+    display: block;
+}
+.total-donut .libelle-total {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+/* ================= Alertes ================= */
+.item-alerte {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f2f3f6;
+    text-decoration: none;
+    color: inherit;
+}
+.item-alerte:last-child { border-bottom: none; }
+.item-alerte .icone-alerte {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+.item-alerte .titre-alerte {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #1e2233;
+}
+.item-alerte .sous-titre-alerte {
+    font-size: 12px;
+    color: #9ca3af;
+}
+.item-alerte .chevron-alerte {
+    margin-left: auto;
+    color: #c5c9d3;
+    align-self: center;
+}
+
+/* ================= Classement (top véhicules) ================= */
+.item-classement {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 13.5px;
+}
+.item-classement .rang {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #f0f1f6;
+    color: #6b7280;
+    font-size: 11.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+.item-classement .nom-vehicule-classement {
+    flex-grow: 1;
+    color: #1e2233;
+    font-weight: 500;
+}
+.item-classement .valeur-classement {
+    color: #6b7280;
+    font-size: 12.5px;
+}
+
+/* ================= Activités récentes ================= */
+.item-activite {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+}
+.item-activite .icone-activite {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+.item-activite .texte-activite {
+    font-size: 13.5px;
+    color: #1e2233;
+}
+.item-activite .details-activite {
+    font-size: 12px;
+    color: #9ca3af;
+}
+.item-activite .horodatage-activite {
+    font-size: 11.5px;
+    color: #b0b4bf;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+/* ================= Badges de statut ================= */
+.badge-statut {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+.badge-statut.a-venir     { background: #e6f4ea; color: #1e8e3e; }
+.badge-statut.en-cours    { background: #e8f0fe; color: #1a56db; }
+.badge-statut.terminee    { background: #f1f2f4; color: #5f6368; }
+.badge-statut.annulee     { background: #fdeaea; color: #d93025; }
+
+/* ================= Tableau réservations récentes ================= */
+#table-reservations-recentes th {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    color: #9ca3af;
+    font-weight: 600;
+    border-bottom: 1px solid #f0f1f4;
+    padding: 10px 16px;
+}
+#table-reservations-recentes td {
+    font-size: 13.5px;
+    padding: 12px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f5f6f9;
+}
