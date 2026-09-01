@@ -15,3 +15,8 @@
 # Operating-system files
 .DS_Store
 Thumbs.db
+
+# Sensitive files
+config/auth.php
+config/db.php
+config/jwt_config.php
