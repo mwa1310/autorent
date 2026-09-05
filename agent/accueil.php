@@ -193,6 +193,37 @@ $prefixeRacine = '../';
                 $('#table-reservations-jour tbody').html('<tr><td colspan="5" class="text-center text-muted py-4">Erreur de chargement.</td></tr>');
                 toastr.error("Impossible de charger les réservations du jour.", 'Erreur');
             });
+
+            // -----------------------------------------------------------
+            // Alertes
+            // -----------------------------------------------------------
+            $.getJSON('../api/alertes.php', function (reponse) {
+                const $listeAlertes = $('#liste-alertes');
+    
+                // Le badge de la cloche reflète maintenant le vrai nombre d'alertes (plus de "5" fixe)
+                if (reponse.data.length > 0) {
+                    $('.badge-notif').text(reponse.data.length).show();
+                } else {
+                    $('.badge-notif').hide();
+                }
+    
+                if (reponse.data.length === 0) {
+                    $listeAlertes.append('<p class="text-muted text-center py-3 mb-0">Aucune alerte, tout va bien 👍</p>');
+                    return;
+                }
+                reponse.data.forEach(a => {
+                    const style = stylesAlerte[a.type] || { icone: 'fa-circle-info', couleur: '#f3f4f6', iconeCouleur: '#6b7280' };
+                    $listeAlertes.append(`
+                        <div class="item-alerte">
+                            <div class="icone-activite" style="background:${style.couleur}; color:${style.iconeCouleur};"><i class="fa-solid ${style.icone}"></i></div>
+                            <div class="texte-activite">
+                                <div class="titre-activite">${a.titre}</div>
+                                <div class="sous-activite">${a.sous}</div>
+                            </div>
+                        </div>
+                    `);
+                });
+            }).fail(() => toastr.error("Impossible de charger les alertes.", 'Erreur'));
         });
     </script>
 </body>
