@@ -21,6 +21,10 @@ $dossierAccueil = (($roleConnecte ?? '') === 'admin') ? 'admin' : 'agent';
         <a href="<?= $prefixeRacine . $dossierAccueil ?>/accueil.php" class="menu-item <?= $pageActive === 'accueil' ? 'actif' : '' ?>">
             <span class="icone"><i class="fa-solid fa-house"></i></span> Accueil
         </a>
+        <a href="<?= $prefixeRacine ?>alertes.php" class="menu-item d-flex align-items-center <?= $pageActive === 'alertes' ? 'actif' : '' ?>">
+            <span class="icone"><i class="fa-solid fa-bell"></i></span> Alertes
+            <span id="badge-alertes-sidebar" class="badge bg-danger rounded-pill ms-auto d-none" style="font-size:10px;">0</span>
+        </a>
 
         <div class="rubrique-titre">Opérations</div>
         <a href="<?= $prefixeRacine ?>reservations.php" class="menu-item <?= $pageActive === 'reservations' ? 'actif' : '' ?>">
@@ -62,3 +66,27 @@ $dossierAccueil = (($roleConnecte ?? '') === 'admin') ? 'admin' : 'agent';
         </button>
     </div>
 </div>
+
+<script>
+// Badge de compteur d'alertes, actualisé automatiquement sur toutes les pages
+// qui incluent cette sidebar. On attend l'événement "load" pour être sûr que
+// jQuery (chargé en bas de chaque page) est bien disponible.
+window.addEventListener('load', function () {
+    function actualiserBadgeAlertes() {
+        if (typeof $ === 'undefined' || typeof $.getJSON !== 'function') return;
+        $.getJSON('<?= $prefixeRacine ?>api/alertes.php', function (reponse) {
+            const nb = reponse.total || 0;
+            const $badge = $('#badge-alertes-sidebar');
+            if (nb > 0) {
+                $badge.text(nb > 99 ? '99+' : nb).removeClass('d-none');
+            } else {
+                $badge.addClass('d-none');
+            }
+        }).fail(function () {
+            // Silencieux : évite de polluer la console si l'utilisateur n'est pas encore connecté.
+        });
+    }
+    actualiserBadgeAlertes();
+    setInterval(actualiserBadgeAlertes, 20000);
+});
+</script>
