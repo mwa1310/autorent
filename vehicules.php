@@ -511,6 +511,25 @@
             });
         });
 
+        // -----------------------------------------------------------
+        // Alertes
+        // -----------------------------------------------------------
+        $.getJSON('api/alertes.php', function (reponse) {
+            const $listeAlertes = $('#liste-alertes');
+ 
+            // Le badge de la cloche reflète maintenant le vrai nombre d'alertes (plus de "5" fixe)
+            if (reponse.data.length > 0) {
+                $('.badge-notif').text(reponse.data.length).show();
+            } else {
+                $('.badge-notif').hide();
+            }
+ 
+            if (reponse.data.length === 0) {
+                $listeAlertes.append('<p class="text-muted text-center py-3 mb-0">Aucune alerte, tout va bien 👍</p>');
+                return;
+            }
+        }).fail(() => toastr.error("Impossible de charger les alertes.", 'Erreur'));
+
         chargerCategories();
         chargerStats();
         chargerListe(1);

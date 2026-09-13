@@ -247,6 +247,21 @@
 
         const iconesMode = { especes: 'fa-money-bill-wave', virement: 'fa-building-columns', mobile_money: 'fa-mobile-screen' };
 
+        function ouvrirRecu(idPaie) {
+            $.ajax({
+                url: 'api/recu_generer.php?id_paie=' + idPaie,
+                method: 'GET',
+                xhrFields: { responseType: 'blob' },
+                success: function (blob) {
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                },
+                error: function (xhr) {
+                    if (xhr.status !== 401) toastr.error("Impossible de générer le reçu.", 'Erreur');
+                }   
+            });
+        }
+
         function formaterDate(d) {
             const dt = new Date(d);
             return dt.toLocaleDateString('fr-FR') + ' ' + dt.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
@@ -305,7 +320,9 @@
                                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item btn-editer-pay" href="#" data-id="${p.id_paie}">Modifier</a></li>
-                                            ${estAdmin ? `<li><a class="dropdown-item text-danger btn-supprimer-pay" href="#" data-id="${p.id_paie}">Supprimer</a></li>` : ''}
+                                            ${estAdmin ? `<li><a class="dropdown-item text-danger btn-supprimer-pay" href="#" data-id="${p.id_paie}">Supprimer</a></li>
+                                            <li><button type="button" class="btn btn-sm btn-outline-secondary" onclick="ouvrirRecu(${p.id_paie})">
+                                            Imprimer le reçu</button></li>` : ''}
                                         </ul>
                                     </div>
                                 </td>
@@ -437,6 +454,25 @@
                 error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
             });
         });
+
+        // -----------------------------------------------------------
+        // Alertes
+        // -----------------------------------------------------------
+        $.getJSON('api/alertes.php', function (reponse) {
+            const $listeAlertes = $('#liste-alertes');
+ 
+            // Le badge de la cloche reflète maintenant le vrai nombre d'alertes (plus de "5" fixe)
+            if (reponse.data.length > 0) {
+                $('.badge-notif').text(reponse.data.length).show();
+            } else {
+                $('.badge-notif').hide();
+            }
+ 
+            if (reponse.data.length === 0) {
+                $listeAlertes.append('<p class="text-muted text-center py-3 mb-0">Aucune alerte, tout va bien 👍</p>');
+                return;
+            }
+        }).fail(() => toastr.error("Impossible de charger les alertes.", 'Erreur'));
 
         chargerStats();
         chargerListe(1);

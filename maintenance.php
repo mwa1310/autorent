@@ -241,7 +241,7 @@
                             <td><span class="badge-statut-m ${m.statut}">${m.statut_libelle}</span></td>
                             <td>${formaterDate(m.date_prevue)}</td>
                             <td>${m.prochaine_maintenance ? formaterDate(m.prochaine_maintenance) + '<br><small>' + joursRestants(m.prochaine_maintenance) + '</small>' : '-'}</td>
-                            <td><div class="dropdown"><button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis"></i></button>
+                            <td><div class="dropdown"><button class="btn btn-sm btn-outline-secondary dropdofouwn-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis"></i></button>
                                 <ul class="dropdown-menu"><li><a class="dropdown-item btn-editer-maint" href="#" data-id="${m.id_maintenance}">Modifier</a></li></ul></div></td>
                         </tr>`);
                     });
@@ -325,6 +325,25 @@
                 error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
             });
         });
+
+        // -----------------------------------------------------------
+        // Alertes
+        // -----------------------------------------------------------
+        $.getJSON('api/alertes.php', function (reponse) {
+            const $listeAlertes = $('#liste-alertes');
+ 
+            // Le badge de la cloche reflète maintenant le vrai nombre d'alertes (plus de "5" fixe)
+            if (reponse.data.length > 0) {
+                $('.badge-notif').text(reponse.data.length).show();
+            } else {
+                $('.badge-notif').hide();
+            }
+ 
+            if (reponse.data.length === 0) {
+                $listeAlertes.append('<p class="text-muted text-center py-3 mb-0">Aucune alerte, tout va bien 👍</p>');
+                return;
+            }
+        }).fail(() => toastr.error("Impossible de charger les alertes.", 'Erreur'));
 
         chargerTypes(); chargerStats(); chargerListe(1);
     </script>
