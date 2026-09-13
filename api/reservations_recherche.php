@@ -24,7 +24,7 @@ $donnees = array_map(function ($r) {
     $ref = 'RÉS-' . date('Y') . '-' . str_pad($r['id_reservation'], 4, '0', STR_PAD_LEFT);
     return [
         "id" => $r['id_reservation'],
-        "label" => $ref . ' — ' . $r['prenom'] . ' ' . $r['nom'] . ' (' . $r['marque'] . ' ' . $r['modele'] . ')',
+        "label" => $ref . ' - ' . $r['prenom'] . ' ' . $r['nom'] . ' (' . $r['marque'] . ' ' . $r['modele'] . ')',
         "montant_total" => (float) $r['montant_total'],
     ];
 }, $stmt->fetchAll());

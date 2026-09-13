@@ -19,7 +19,7 @@ $stmt->execute(["r1" => $v, "r2" => $v, "r3" => $v]);
 
 $donnees = array_map(fn($c) => [
     "id" => $c['id_client'],
-    "label" => $c['prenom'] . ' ' . $c['nom'] . ' — ' . $c['telephone'],
+    "label" => $c['prenom'] . ' ' . $c['nom'] . ' - ' . $c['telephone'],
 ], $stmt->fetchAll());
 
 echo json_encode(["success" => true, "data" => $donnees]);
