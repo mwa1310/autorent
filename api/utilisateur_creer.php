@@ -2,9 +2,10 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
-exigerRoleParmi(['admin']);
+$utilisateurConnecte = exigerRoleParmi(['admin']);
 
 $d = json_decode(file_get_contents('php://input'), true);
 $nom = trim($d['nom'] ?? '');
@@ -31,7 +32,10 @@ try {
         "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, role, etat) VALUES (:nom, :prenom, :email, :mdp, :role, 'actif')"
     );
     $stmt->execute(["nom" => $nom, "prenom" => $prenom, "email" => $email, "mdp" => password_hash($motDePasse, PASSWORD_DEFAULT), "role" => $role]);
-    echo json_encode(["success" => true, "message" => "Compte créé.", "id_utilisateur" => $pdo->lastInsertId()]);
+    $idNouvelUtilisateur = (int) $pdo->lastInsertId();
+    enregistrerActivite($pdo, $utilisateurConnecte, 'creation', 'utilisateur', $idNouvelUtilisateur,
+        "Creation du compte $prenom $nom ($email, role : $role)");
+    echo json_encode(["success" => true, "message" => "Compte cree.", "id_utilisateur" => $idNouvelUtilisateur]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

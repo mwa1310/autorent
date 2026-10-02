@@ -34,7 +34,10 @@ try {
         "statut" => $statut, "id_utilisateur" => $utilisateur['id_utilisateur'],
     ]);
 
-    echo json_encode(["success" => true, "message" => "Paiement enregistré.", "id_paie" => $pdo->lastInsertId()]);
+    $idNouveauPaie = (int) $pdo->lastInsertId();
+    enregistrerActivite($pdo, $utilisateur, 'creation', 'paiement', $idNouveauPaie,
+        "Paiement de $montant FCFA enregistre pour la reservation #$idReservation (mode : $mode)");
+    echo json_encode(["success" => true, "message" => "Paiement enregistre.", "id_paie" => $idNouveauPaie]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

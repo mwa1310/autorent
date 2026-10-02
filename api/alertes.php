@@ -2,14 +2,6 @@
 /**
  * API - Alertes
  * GET /api/alertes.php
- *
- * Limite connue : le schéma actuel n'a pas de table pour les documents
- * (assurance, contrôle technique) - l'alerte "documents expirés" nécessiterait
- * d'ajouter ces champs/cette table au modèle de données (non incluse ici).
- *
- * ⚠️ L'alerte "paiement en retard" suppose un champ montant_total sur
- * Reservations et un champ statut ('valide', ...) sur Paiements. Adaptez les
- * noms de colonnes ci-dessous si votre schéma diffère.
  */
 
 header('Content-Type: application/json; charset=utf-8');
@@ -20,6 +12,11 @@ require_once __DIR__ . '/../includes/middleware_auth.php';
 exigerAuthentification();
 
 $alertes = [];
+
+// --- Seuil configurable (page Paramètres), 7 jours par défaut si jamais absent ---
+$reglages = $pdo->query("SELECT jours_alerte_maintenance FROM Parametres WHERE id = 1")->fetch();
+$joursAlerteMaintenance = (int) ($reglages['jours_alerte_maintenance'] ?? 7);
+if ($joursAlerteMaintenance <= 0) { $joursAlerteMaintenance = 7; }
 
 // --- Véhicules hors service ---
 $nbHorsService = (int) $pdo->query(
@@ -49,18 +46,21 @@ if ($nbMaintenancesRetard > 0) {
     ];
 }
 
-// --- Maintenances planifiées dans les 7 prochains jours ---
-$nbMaintenancesAVenir = (int) $pdo->query(
+// --- Maintenances planifiées dans les prochains jours (seuil configurable) ---
+$stmtMaintenanceAVenir = $pdo->prepare(
     "SELECT COUNT(*) FROM Maintenance
      WHERE statut = 'planifiee'
-       AND date_prevue BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)"
-)->fetchColumn();
+       AND date_prevue BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL :jours DAY)"
+);
+$stmtMaintenanceAVenir->bindValue(':jours', $joursAlerteMaintenance, PDO::PARAM_INT);
+$stmtMaintenanceAVenir->execute();
+$nbMaintenancesAVenir = (int) $stmtMaintenanceAVenir->fetchColumn();
 
 if ($nbMaintenancesAVenir > 0) {
     $alertes[] = [
         "type"    => "maintenance_a_venir",
         "titre"   => "$nbMaintenancesAVenir maintenance(s) à venir",
-        "sous"    => "Dans les 7 prochains jours",
+        "sous"    => "Dans les $joursAlerteMaintenance prochains jours",
         "gravite" => "warning",
     ];
 }

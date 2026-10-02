@@ -60,5 +60,6 @@ function recupererTokenDepuisRequete(): ?string
         return trim($matches[1]);
     }
 
-    return $_COOKIE['jwt_token'] ?? null;
+    return $_COOKIE['jwt_token'] ?? ($_GET['token'] ?? null);
 }
+

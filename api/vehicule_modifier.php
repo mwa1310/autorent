@@ -2,9 +2,10 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
-exigerRoleParmi(['admin']);
+$utilisateur = exigerRoleParmi(['admin']);
 
 $id = (int) ($_GET['id'] ?? 0);
 $d = json_decode(file_get_contents('php://input'), true);
@@ -42,7 +43,9 @@ try {
         "annee" => $annee, "carburant" => $carburant, "kilometrage" => $kilometrage, "id" => $id,
     ]);
 
-    echo json_encode(["success" => true, "message" => "Véhicule modifié avec succès."]);
+    enregistrerActivite($pdo, $utilisateur, 'modification', 'vehicule', $id,
+        "Modification du vehicule #$id - $marque $modele ($annee, $carburant, $kilometrage km)");
+    echo json_encode(["success" => true, "message" => "Vehicule modifie avec succes."]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

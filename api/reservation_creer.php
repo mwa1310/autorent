@@ -2,6 +2,7 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
 $utilisateur = exigerRoleParmi(['admin', 'agent']);
@@ -47,7 +48,12 @@ try {
         "date_debut" => $dateDebut, "date_fin" => $dateFin, "statut" => $statut, "montant_total" => $montantTotal,
     ]);
 
-    echo json_encode(["success" => true, "message" => "Réservation créée avec succès.", "id_reservation" => $pdo->lastInsertId()]);
+    $idNouvelleReservation = (int) $pdo->lastInsertId();
+    $reference = 'RES-' . str_pad($idNouvelleReservation, 6, '0', STR_PAD_LEFT);
+    enregistrerActivite($pdo, $utilisateur, 'creation', 'reservation', $idNouvelleReservation,
+        "Creation de la reservation $reference pour le client #$idClient (vehicule #$idVehicule)");
+
+    echo json_encode(["success" => true, "message" => "Reservation creee avec succes.", "id_reservation" => $idNouvelleReservation]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

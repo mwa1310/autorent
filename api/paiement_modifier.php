@@ -2,9 +2,10 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
-exigerRoleParmi(['admin', 'agent']);
+$utilisateur = exigerRoleParmi(['admin', 'agent']);
 
 $id = (int) ($_GET['id'] ?? 0);
 $d = json_decode(file_get_contents('php://input'), true);
@@ -23,7 +24,9 @@ if (!empty($erreurs)) { http_response_code(422); echo json_encode(["success" => 
 try {
     $stmt = $pdo->prepare("UPDATE Paiements SET montant = :montant, mode_paiement = :mode, statut = :statut WHERE id_paie = :id");
     $stmt->execute(["montant" => $montant, "mode" => $mode, "statut" => $statut, "id" => $id]);
-    echo json_encode(["success" => true, "message" => "Paiement modifié."]);
+    enregistrerActivite($pdo, $utilisateur, 'modification', 'paiement', $id,
+        "Modification du paiement #$id - montant : $montant FCFA, mode : $mode, statut : $statut");
+    echo json_encode(["success" => true, "message" => "Paiement modifie."]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

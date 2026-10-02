@@ -7,6 +7,7 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
 $utilisateur = exigerAuthentification();
@@ -30,7 +31,9 @@ if ($stmtVerif->fetch()) { http_response_code(409); echo json_encode(["success" 
 try {
     $stmt = $pdo->prepare("UPDATE Utilisateurs SET nom=:nom, prenom=:prenom, email=:email WHERE id_utilisateur=:id");
     $stmt->execute(["nom" => $nom, "prenom" => $prenom, "email" => $email, "id" => $utilisateur['id_utilisateur']]);
-    echo json_encode(["success" => true, "message" => "Profil mis à jour."]);
+    enregistrerActivite($pdo, $utilisateur, 'modification', 'utilisateur', $utilisateur['id_utilisateur'],
+        "Modification de son propre profil - $prenom $nom ($email)");
+    echo json_encode(["success" => true, "message" => "Profil mis a jour."]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

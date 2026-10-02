@@ -2,6 +2,7 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 $utilisateur = exigerRoleParmi(['admin', 'agent']);
 
@@ -37,7 +38,11 @@ try {
         $pdo->prepare("UPDATE Vehicules SET statut_actuel = 'maintenance' WHERE id_vehicule = :id")->execute(["id" => $idVehicule]);
     }
 
-    echo json_encode(["success" => true, "message" => "Intervention créée.", "id_maintenance" => $pdo->lastInsertId()]);
+    $idNouvelleMaintenance = (int) $pdo->lastInsertId();
+    enregistrerActivite($pdo, $utilisateur, 'creation', 'maintenance', $idNouvelleMaintenance,
+        "Creation d'une intervention \"$type\" pour le vehicule #$idVehicule (statut : $statut, cout : $cout FCFA)");
+
+    echo json_encode(["success" => true, "message" => "Intervention creee.", "id_maintenance" => $idNouvelleMaintenance]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

@@ -2,9 +2,10 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
-exigerRoleParmi(['admin']);
+$utilisateurConnecte = exigerRoleParmi(['admin']);
 
 $d = json_decode(file_get_contents('php://input'), true);
 $nom = trim($d['nom'] ?? '');
@@ -21,8 +22,14 @@ if (!empty($erreurs)) { http_response_code(422); echo json_encode(["success" => 
 
 // Si les tarifs hebdo/mensuel ne sont pas précisés, on les déduit du tarif journalier
 // (6 jours facturés/semaine, 24 jours facturés/mois) plutôt que de les laisser vides.
-if ($tarifHebdo === null) $tarifHebdo = round($tarifJour * 6, 2);
-if ($tarifMensuel === null) $tarifMensuel = round($tarifJour * 24, 2);
+// Multiplicateurs configurables depuis la page Paramètres (valeurs par défaut si jamais absentes)
+$stmtParams = $pdo->query("SELECT jours_semaine_facturation, jours_mois_facturation FROM Parametres WHERE id = 1");
+$reglages = $stmtParams->fetch();
+$joursSemaine = $reglages['jours_semaine_facturation'] ?? 6;
+$joursMois = $reglages['jours_mois_facturation'] ?? 24;
+
+if ($tarifHebdo === null) $tarifHebdo = round($tarifJour * $joursSemaine, 2);
+if ($tarifMensuel === null) $tarifMensuel = round($tarifJour * $joursMois, 2);
 
 try {
     $stmtVerif = $pdo->prepare("SELECT id_categorie FROM Categories_vehicules WHERE nom = :nom");
@@ -42,7 +49,18 @@ try {
         "tarif_mensuel" => $tarifMensuel, "description" => $description,
     ]);
 
-    echo json_encode(["success" => true, "message" => "Catégorie \"$nom\" créée.", "id_categorie" => $pdo->lastInsertId()]);
+    $idCategorie = (int) $pdo->lastInsertId();
+
+    enregistrerActivite(
+        $pdo,
+        $utilisateurConnecte,
+        'creation',
+        'categorie',
+        $idCategorie,
+        "Création de la catégorie \"$nom\" (tarif journalier : $tarifJour FCFA)"
+    );
+
+    echo json_encode(["success" => true, "message" => "Catégorie \"$nom\" créée.", "id_categorie" => $idCategorie]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

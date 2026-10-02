@@ -2,9 +2,10 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
-exigerRoleParmi(['admin']);
+$utilisateur = exigerRoleParmi(['admin']);
 
 $id = (int) ($_GET['id'] ?? 0);
 if ($id <= 0) {
@@ -15,5 +16,6 @@ if ($id <= 0) {
 
 $stmt = $pdo->prepare("UPDATE Vehicules SET etat = 'inactif' WHERE id_vehicule = :id");
 $stmt->execute(["id" => $id]);
-
-echo json_encode(["success" => true, "message" => "Véhicule archivé."]);
+enregistrerActivite($pdo, $utilisateur, 'suppression', 'vehicule', $id,
+    "Archivage du vehicule #$id");
+echo json_encode(["success" => true, "message" => "Vehicule archive."]);

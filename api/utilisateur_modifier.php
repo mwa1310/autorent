@@ -2,9 +2,10 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
-exigerRoleParmi(['admin']);
+$utilisateurConnecte = exigerRoleParmi(['admin']);
 
 $id = (int) ($_GET['id'] ?? 0);
 $d = json_decode(file_get_contents('php://input'), true);
@@ -32,7 +33,9 @@ try {
         $stmt = $pdo->prepare("UPDATE Utilisateurs SET nom=:nom, prenom=:prenom, email=:email, role=:role WHERE id_utilisateur=:id");
         $stmt->execute(["nom" => $nom, "prenom" => $prenom, "email" => $email, "role" => $role, "id" => $id]);
     }
-    echo json_encode(["success" => true, "message" => "Utilisateur modifié."]);
+    enregistrerActivite($pdo, $utilisateurConnecte, 'modification', 'utilisateur', $id,
+        "Modification du compte #$id - $prenom $nom ($email, role : $role)" . ($nouveauMotDePasse !== '' ? ', mot de passe change' : ''));
+    echo json_encode(["success" => true, "message" => "Utilisateur modifie."]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

@@ -2,8 +2,9 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
-exigerRoleParmi(['admin', 'agent']);
+$utilisateur = exigerRoleParmi(['admin', 'agent']);
 
 $id = (int) ($_GET['id'] ?? 0);
 $d = json_decode(file_get_contents('php://input'), true);
@@ -32,7 +33,9 @@ try {
         "nom" => $nom, "prenom" => $prenom, "email" => $email, "numero_permis" => $numeroPermis,
         "date_delivrance_permis" => $dateDelivrancePermis, "numero_CNI" => $numeroCni, "adresse" => $adresse, "telephone" => $telephone, "id" => $id,
     ]);
-    echo json_encode(["success" => true, "message" => "Client modifié."]);
+    enregistrerActivite($pdo, $utilisateur, 'modification', 'client', $id,
+        "Modification du client $prenom $nom (id #$id)");
+    echo json_encode(["success" => true, "message" => "Client modifie."]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

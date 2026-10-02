@@ -2,9 +2,10 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
-exigerRoleParmi(['admin', 'agent']);
+$utilisateur = exigerRoleParmi(['admin', 'agent']);
 
 $id = (int) ($_GET['id'] ?? 0);
 $d = json_decode(file_get_contents('php://input'), true);
@@ -50,7 +51,11 @@ try {
         "statut" => $statut, "montant_total" => $montantTotal, "id" => $id,
     ]);
 
-    echo json_encode(["success" => true, "message" => "Réservation modifiée avec succès."]);
+    $reference = 'RES-' . str_pad($id, 6, '0', STR_PAD_LEFT);
+    enregistrerActivite($pdo, $utilisateur, 'modification', 'reservation', $id,
+        "Modification de la reservation $reference - statut : $statut, montant : $montantTotal FCFA");
+
+    echo json_encode(["success" => true, "message" => "Reservation modifiee avec succes."]);
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Erreur : " . $e->getMessage()]);

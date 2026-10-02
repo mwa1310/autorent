@@ -2,6 +2,7 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
 $utilisateurConnecte = exigerRoleParmi(['admin']);
@@ -24,4 +25,8 @@ $nouvelEtat = $u['etat'] === 'actif' ? 'inactif' : 'actif';
 $stmtMaj = $pdo->prepare("UPDATE Utilisateurs SET etat = :etat WHERE id_utilisateur = :id");
 $stmtMaj->execute(["etat" => $nouvelEtat, "id" => $id]);
 
-echo json_encode(["success" => true, "message" => "Compte " . ($nouvelEtat === 'actif' ? 'activé' : 'désactivé') . ".", "nouvel_etat" => $nouvelEtat]);
+$libelle = $nouvelEtat === 'actif' ? 'active' : 'desactive';
+enregistrerActivite($pdo, $utilisateurConnecte, 'modification', 'utilisateur', $id,
+    "Compte utilisateur #$id $libelle");
+
+echo json_encode(["success" => true, "message" => "Compte " . ($nouvelEtat === 'actif' ? 'active' : 'desactive') . ".", "nouvel_etat" => $nouvelEtat]);

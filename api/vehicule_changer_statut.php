@@ -2,6 +2,7 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
 $utilisateur = exigerRoleParmi(['admin']);
@@ -42,7 +43,10 @@ try {
     ]);
 
     $pdo->commit();
-    echo json_encode(["success" => true, "message" => "Statut mis à jour."]);
+    $ancienStatut = $vehicule['statut_actuel'];
+    enregistrerActivite($pdo, $utilisateur, 'modification', 'vehicule', $id,
+        "Changement de statut du vehicule #$id : $ancienStatut -> $nouveauStatut" . ($raison ? " (raison : $raison)" : ''));
+    echo json_encode(["success" => true, "message" => "Statut mis a jour."]);
 } catch (\PDOException $e) {
     $pdo->rollBack();
     http_response_code(500);

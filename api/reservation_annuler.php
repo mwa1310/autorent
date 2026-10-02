@@ -2,9 +2,10 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware_auth.php';
+require_once __DIR__ . '/../includes/journal.php';
 $pdo = getPDO();
 
-exigerRoleParmi(['admin', 'agent']);
+$utilisateur = exigerRoleParmi(['admin', 'agent']);
 
 $id = (int) ($_GET['id'] ?? 0);
 if ($id <= 0) { http_response_code(422); echo json_encode(["success" => false, "message" => "Identifiant invalide."]); exit; }
@@ -19,4 +20,8 @@ if ($reservation['statut'] === 'terminee') { http_response_code(409); echo json_
 $stmtMaj = $pdo->prepare("UPDATE Reservations SET statut = 'annulee' WHERE id_reservation = :id");
 $stmtMaj->execute(["id" => $id]);
 
-echo json_encode(["success" => true, "message" => "Réservation annulée."]);
+$reference = 'RES-' . str_pad($id, 6, '0', STR_PAD_LEFT);
+enregistrerActivite($pdo, $utilisateur, 'modification', 'reservation', $id,
+    "Annulation de la reservation $reference");
+
+echo json_encode(["success" => true, "message" => "Reservation annulee."]);
