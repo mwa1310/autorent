@@ -1,7 +1,7 @@
 <?php
 /**
  * Modification du profil personnel. Volontairement limité au nom/prénom/email :
- * ni le mot de passe ni le rôle ne sont modifiables ici — la gestion des mots
+ * ni le mot de passe ni le rôle ne sont modifiables ici - la gestion des mots
  * de passe et des rôles reste exclusivement une action admin, via la page Utilisateurs.
  */
 header('Content-Type: application/json; charset=utf-8');

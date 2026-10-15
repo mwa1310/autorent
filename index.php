@@ -6,6 +6,7 @@
     <title>AutoRent - Connexion</title>
 
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/toastr/toastr.min.css">
     <link rel="stylesheet" href="style/index.css">
 
@@ -31,12 +32,20 @@
                         <label for="connexion-email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="connexion-email" name="email" required>
                     </div>
-                    <div class="mb-2">
-                        <label for="connexion-motdepasse" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="connexion-motdepasse" name="mot_de_passe" required>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label for="connexion-motdepasse" class="form-label mb-1">Mot de passe</label>
+                            <a href="#" id="lien-mdp-oublie" class="text-decoration-none" style="font-size:12.5px; color:#6366f1;">Mot de passe oublié ?</a>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="connexion-motdepasse" name="mot_de_passe" required>
+                            <button class="btn btn-outline-secondary" type="button" id="btn-toggle-mdp" style="border-color:#dee2e6;">
+                                <i class="fa-regular fa-eye" id="icone-oeil"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-connexion mt-3" id="btn-connexion">
+                    <button type="submit" class="btn btn-connexion mt-2" id="btn-connexion">
                         <span class="libelle-btn">Se connecter</span>
                     </button>
                 </form>
@@ -58,10 +67,24 @@
             timeOut: 4000
         };
 
-        // if (localStorage.getItem('jwt_token')) {
-        //     const utilisateurExistant = JSON.parse(localStorage.getItem('utilisateur') || '{}');
-        //     window.location.href = (utilisateurExistant.role === 'admin') ? 'admin/accueil.php' : 'agent/accueil.php';
-        // }
+        if (localStorage.getItem('jwt_token')) {
+            const utilisateurExistant = JSON.parse(localStorage.getItem('utilisateur') || '{}');
+            if (utilisateurExistant.role) {
+                window.location.href = (utilisateurExistant.role === 'admin') ? 'admin/accueil.php' : 'agent/accueil.php';
+            }
+        }
+
+        $('#btn-toggle-mdp').on('click', function () {
+            const $champ = $('#connexion-motdepasse');
+            const estMdp = $champ.attr('type') === 'password';
+            $champ.attr('type', estMdp ? 'text' : 'password');
+            $('#icone-oeil').toggleClass('fa-eye fa-eye-slash');
+        });
+
+        $('#lien-mdp-oublie').on('click', function (e) {
+            e.preventDefault();
+            toastr.info("Veuillez vous adresser a un administrateur pour reinitialiser votre mot de passe.", "Mot de passe oublie");
+        });
 
         function basculerChargement($bouton, enCours, texteChargement) {
             if (enCours) {

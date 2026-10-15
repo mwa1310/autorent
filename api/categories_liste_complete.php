@@ -34,7 +34,7 @@ $donnees = array_map(function ($c) use ($exemplesParCategorie) {
         "code"                => 'CAT-' . str_pad($c['id_categorie'], 3, '0', STR_PAD_LEFT),
         "nom"                 => $c['nom'],
         "description"         => $c['description'],
-        "exemples"            => $exemplesParCategorie[$c['id_categorie']] ?? '—',
+        "exemples"            => $exemplesParCategorie[$c['id_categorie']] ?? '-',
         "tarif_jour"          => (float) $c['tarif_jour'],
         "tarif_hebdomadaire"  => $c['tarif_hebdomadaire'] !== null ? (float) $c['tarif_hebdomadaire'] : null,
         "tarif_mensuel"       => $c['tarif_mensuel'] !== null ? (float) $c['tarif_mensuel'] : null,

@@ -54,76 +54,105 @@ $prefixeRacine = '../';
          <!-- Cartes de statistiques rapides -->
         <div class="row g-3 mb-4">
             <div class="col-md-4">
-                <div class="carte-stat">
-                    <div class="icone-stat" style="background:#e8f0fe; color:#2563eb;"><i class="fa-solid fa-car-side"></i></div>
-                    <div class="valeur-stat" id="stat-vehicules-disponibles">-</div>
-                    <div class="libelle-stat">Véhicules disponibles maintenant</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="carte-stat">
-                    <div class="icone-stat" style="background:#fef3e2; color:#d97706;"><i class="fa-solid fa-arrow-up"></i></div>
-                    <div class="valeur-stat" id="stat-departs-jour">-</div>
-                    <div class="libelle-stat">Départs prévus aujourd'hui</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="carte-stat">
-                    <div class="icone-stat" style="background:#e9f7ef; color:#16a34a;"><i class="fa-solid fa-arrow-down"></i></div>
-                    <div class="valeur-stat" id="stat-retours-jour">-</div>
-                    <div class="libelle-stat">Retours prévus aujourd'hui</div>
-                </div>
-            </div>
-        </div>
- 
-        <!-- Réservations du jour -->
-        <h5 class="mb-3">Réservations à traiter aujourd'hui</h5>
-        <div class="table-responsive" style="background:#fff; border-radius:12px; border:1px solid #edeef2;">
-            <table class="table mb-0" id="table-reservations-jour">
-                <thead>
-                    <tr>
-                        <th>Client</th>
-                        <th>Véhicule</th>
-                        <th>Type</th>
-                        <th>Heure prévue</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td colspan="5" class="text-center text-muted py-4">Chargement...</td></tr>
-                </tbody>
-            </table>
-        </div>
- 
-        <!-- Liens rapides -->
-        <!-- <h5 class="mt-4 mb-3">Accès rapide</h5>
-        <div class="row g-3">
-            <div class="col-md-3">
-                <a href="../vehicules.php" class="carte-lien-rapide">
-                    <div class="icone-lien"><i class="fa-solid fa-car-side"></i></div>
-                    <div class="titre-lien">Véhicules</div>
+                <a href="../vehicules.php" class="text-decoration-none text-reset">
+                    <div class="carte-stat">
+                        <div class="icone-stat" style="background:#e8f0fe; color:#2563eb;"><i class="fa-solid fa-car-side"></i></div>
+                        <div class="valeur-stat" id="stat-vehicules-disponibles">-</div>
+                        <div class="libelle-stat">Véhicules disponibles maintenant</div>
+                        <div class="tendance"><span class="contexte">Voir le parc auto</span></div>
+                    </div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
+                <a href="../reservations.php" class="text-decoration-none text-reset">
+                    <div class="carte-stat">
+                        <div class="icone-stat" style="background:#fef3e2; color:#d97706;"><i class="fa-solid fa-arrow-up"></i></div>
+                        <div class="valeur-stat" id="stat-departs-jour">-</div>
+                        <div class="libelle-stat">Départs prévus aujourd'hui</div>
+                        <div class="tendance"><span class="contexte">Gérer les réservations</span></div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="../reservations.php" class="text-decoration-none text-reset">
+                    <div class="carte-stat">
+                        <div class="icone-stat" style="background:#e9f7ef; color:#16a34a;"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="valeur-stat" id="stat-retours-jour">-</div>
+                        <div class="libelle-stat">Retours prévus aujourd'hui</div>
+                        <div class="tendance"><span class="contexte">Gérer les retours</span></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+ 
+        <div class="row g-3 mb-4">
+            <!-- Réservations du jour -->
+            <div class="col-lg-8">
+                <div class="panneau">
+                    <div class="entete-panneau">
+                        <h6>Réservations à traiter aujourd'hui</h6>
+                        <a href="../reservations.php" class="lien-voir-tout">Voir toutes les réservations <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="table-reservations-jour">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Véhicule</th>
+                                    <th>Type</th>
+                                    <th>Heure prévue</th>
+                                    <th>Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="5" class="text-center text-muted py-4">Chargement...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertes -->
+            <div class="col-lg-4">
+                <div class="panneau">
+                    <div class="entete-panneau">
+                        <h6>Alertes actives</h6>
+                        <a href="../alertes.php" class="lien-voir-tout">Voir toutes <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div id="liste-alertes"></div>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- Liens d'accès rapide -->
+        <h5 class="mb-3">Accès rapide</h5>
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-6">
                 <a href="../reservations.php" class="carte-lien-rapide">
-                    <div class="icone-lien"><i class="fa-solid fa-calendar-days"></i></div>
+                    <div class="icone-lien" style="color:#6366f1;"><i class="fa-solid fa-calendar-days"></i></div>
                     <div class="titre-lien">Réservations</div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-6">
+                <a href="../vehicules.php" class="carte-lien-rapide">
+                    <div class="icone-lien" style="color:#2563eb;"><i class="fa-solid fa-car-side"></i></div>
+                    <div class="titre-lien">Véhicules</div>
+                </a>
+            </div>
+            <div class="col-md-3 col-6">
                 <a href="../clients.php" class="carte-lien-rapide">
-                    <div class="icone-lien"><i class="fa-solid fa-user"></i></div>
+                    <div class="icone-lien" style="color:#16a34a;"><i class="fa-solid fa-user"></i></div>
                     <div class="titre-lien">Clients</div>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-6">
                 <a href="../paiements.php" class="carte-lien-rapide">
-                    <div class="icone-lien"><i class="fa-solid fa-money-bill-wave"></i></div>
+                    <div class="icone-lien" style="color:#d97706;"><i class="fa-solid fa-money-bill-wave"></i></div>
                     <div class="titre-lien">Paiements</div>
                 </a>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <script src="../assets/jquery/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -156,6 +185,12 @@ $prefixeRacine = '../';
 
 
 
+        const stylesAlerte = {
+            hors_service: { icone: 'fa-ban', couleur: '#fdeaea', iconeCouleur: '#dc2626' },
+            maintenance_a_venir: { icone: 'fa-triangle-exclamation', couleur: '#fef3e2', iconeCouleur: '#d97706' },
+            retour_en_retard: { icone: 'fa-clock', couleur: '#fdeaea', iconeCouleur: '#dc2626' },
+        };
+
         $(function () {
             // -----------------------------------------------------------
             // Statistiques du jour
@@ -181,7 +216,7 @@ $prefixeRacine = '../';
                     const icone = r.type_classe === 'depart' ? 'fa-arrow-up-from-bracket' : 'fa-arrow-down-to-bracket';
                     $corpsTable.append(`
                         <tr>
-                            <td>${r.client}</td>
+                            <td><a href="../reservations.php" class="text-decoration-none fw-bold" style="color:#2563eb;">${r.client}</a></td>
                             <td>${r.vehicule}</td>
                             <td><i class="fa-solid ${icone}"></i> ${r.type}</td>
                             <td>${r.heure_prevue}</td>
@@ -214,13 +249,13 @@ $prefixeRacine = '../';
                 reponse.data.forEach(a => {
                     const style = stylesAlerte[a.type] || { icone: 'fa-circle-info', couleur: '#f3f4f6', iconeCouleur: '#6b7280' };
                     $listeAlertes.append(`
-                        <div class="item-alerte">
+                        <a href="../alertes.php" class="item-alerte text-decoration-none text-dark d-flex mb-2">
                             <div class="icone-activite" style="background:${style.couleur}; color:${style.iconeCouleur};"><i class="fa-solid ${style.icone}"></i></div>
                             <div class="texte-activite">
                                 <div class="titre-activite">${a.titre}</div>
                                 <div class="sous-activite">${a.sous}</div>
                             </div>
-                        </div>
+                        </a>
                     `);
                 });
             }).fail(() => toastr.error("Impossible de charger les alertes.", 'Erreur'));

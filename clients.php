@@ -49,9 +49,9 @@
         </div>
 
         <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
-            <div class="col"><div class="carte-stat"><div class="icone-stat" style="background:#e8f0fe; color:#2563eb;"><i class="fa-solid fa-users"></i></div><div class="valeur-stat" id="stat-total">—</div><div class="libelle-stat">Clients totaux</div></div></div>
-            <div class="col"><div class="carte-stat"><div class="icone-stat" style="background:#e9f7ef; color:#16a34a;"><i class="fa-solid fa-user-plus"></i></div><div class="valeur-stat" id="stat-nouveaux">—</div><div class="libelle-stat">Nouveaux ce mois-ci</div></div></div>
-            <div class="col"><div class="carte-stat"><div class="icone-stat" style="background:#f1eafd; color:#7c3aed;"><i class="fa-solid fa-calendar-check"></i></div><div class="valeur-stat" id="stat-actifs">—</div><div class="libelle-stat">Avec réservation active</div></div></div>
+            <div class="col"><div class="carte-stat"><div class="icone-stat" style="background:#e8f0fe; color:#2563eb;"><i class="fa-solid fa-users"></i></div><div class="valeur-stat" id="stat-total">-</div><div class="libelle-stat">Clients totaux</div></div></div>
+            <div class="col"><div class="carte-stat"><div class="icone-stat" style="background:#e9f7ef; color:#16a34a;"><i class="fa-solid fa-user-plus"></i></div><div class="valeur-stat" id="stat-nouveaux">-</div><div class="libelle-stat">Nouveaux ce mois-ci</div></div></div>
+            <div class="col"><div class="carte-stat"><div class="icone-stat" style="background:#f1eafd; color:#7c3aed;"><i class="fa-solid fa-calendar-check"></i></div><div class="valeur-stat" id="stat-actifs">-</div><div class="libelle-stat">Avec réservation active</div></div></div>
         </div>
 
         <div class="panneau mb-3">
@@ -171,7 +171,7 @@
                             <td><div class="avatar-mini">${initiales(c.nom, c.prenom)}</div></td>
                             <td><strong>${c.prenom} ${c.nom}</strong></td>
                             <td>${c.telephone}</td>
-                            <td>${c.email || '—'}</td>
+                            <td>${c.email || '-'}</td>
                             <td>${c.numero_permis}</td>
                             <td>${c.nb_reservations}</td>
                             <td>${formaterDate(c.date_creation)}</td>
@@ -231,11 +231,17 @@
 
         $('#corps-table-clients').on('click', '.btn-archiver-client', function () {
             const id = $(this).data('id');
-            if (!window.confirm('Archiver ce client ?')) return;
-            $.ajax({
-                url: `api/client_archiver.php?id=${id}`, method: 'DELETE',
-                success: function (r) { toastr.success(r.message, 'Archivé'); chargerListe(pageActuelle); chargerStats(); },
-                error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
+            confirmerAction({
+                titre: 'Archiver le client',
+                message: 'Voulez-vous vraiment archiver ce client ? Il ne sera plus proposé pour de nouvelles réservations.',
+                btnTexte: 'Archiver',
+                btnClasse: 'btn-danger'
+            }, function () {
+                $.ajax({
+                    url: `api/client_archiver.php?id=${id}`, method: 'DELETE',
+                    success: function (r) { toastr.success(r.message, 'Archivé'); chargerListe(pageActuelle); chargerStats(); },
+                    error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
+                });
             });
         });
 

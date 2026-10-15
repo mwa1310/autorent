@@ -12,6 +12,23 @@
 <body>
     <?php include __DIR__ . '/includes/sidebar.php'; ?>
     <div class="contenu-principal">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="d-flex align-items-center gap-3"></div>
+            <div class="zone-droite">
+                <div class="selecteur-date">
+                    <i class="fa-regular fa-calendar"></i> <span id="date-du-jour">-</span>
+                </div>
+                <div class="profil-utilisateur">
+                    <div class="avatar-initiales" id="avatar-initiales">-</div>
+                    <div>
+                        <div class="nom-utilisateur-topbar" id="topbar-nom-utilisateur">-</div>
+                        <div class="role-utilisateur-topbar" id="topbar-role-utilisateur">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="entete-page">
             <h1>Paramètres</h1>
             <p class="sous-titre">Votre profil et la configuration générale de l'agence</p>
@@ -19,7 +36,7 @@
 
         <div class="row g-3">
             <!-- Mon profil -->
-            <div class="col-lg-5">
+            <div class="col-lg-5" id="colonne-profil">
                 <div class="panneau">
                     <div class="entete-panneau"><h6><i class="fa-solid fa-user"></i> Mon profil</h6></div>
                     <form id="form-profil">
@@ -86,7 +103,23 @@
         exigerConnexionSinonRediriger();
         const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateur') || '{}');
         const estAdmin = utilisateurConnecte.role === 'admin';
-        if (!estAdmin) $('.menu-admin-only').hide();
+        if (!estAdmin) {
+            $('.menu-admin-only').hide();
+            $('#colonne-profil').removeClass('col-lg-5').addClass('col-lg-8 mx-auto');
+        }
+
+        const prenomUtilisateur = utilisateurConnecte.prenom || (estAdmin ? 'Admin' : 'Agent');
+        const nomUtilisateur = utilisateurConnecte.nom || '';
+        const initiales = (prenomUtilisateur[0] || 'A') + (nomUtilisateur[0] || (estAdmin ? 'D' : 'G'));
+
+        const elAvatar = document.getElementById('avatar-initiales');
+        if (elAvatar) elAvatar.textContent = initiales.toUpperCase();
+        const elNom = document.getElementById('topbar-nom-utilisateur');
+        if (elNom) elNom.textContent = prenomUtilisateur;
+        const elRole = document.getElementById('topbar-role-utilisateur');
+        if (elRole) elRole.textContent = estAdmin ? 'Administrateur' : 'Agent';
+        const elDate = document.getElementById('date-du-jour');
+        if (elDate) elDate.textContent = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
 
         function chargerProfil() {
             $.getJSON('api/mon_profil_obtenir.php', function (r) {

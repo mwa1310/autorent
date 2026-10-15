@@ -59,44 +59,54 @@ $prefixeRacine = '../';
          <!--   Cartes statistiques   -->
         <div class="row row-cols-1 row-cols-md-5 g-3 mb-4">
             <div class="col">
-                <div class="carte-stat">
-                    <div class="icone-stat" style="background:#e8f0fe; color:#2563eb;"><i class="fa-solid fa-car-side"></i></div>
-                    <div class="valeur-stat" id="stat-vehicules-disponibles">-</div>
-                    <div class="libelle-stat">Véhicules disponibles</div>
-                    <div class="tendance" id="tendance-vehicules-disponibles"></div>
-                </div>
+                <a href="../vehicules.php" class="text-decoration-none text-reset">
+                    <div class="carte-stat">
+                        <div class="icone-stat" style="background:#e8f0fe; color:#2563eb;"><i class="fa-solid fa-car-side"></i></div>
+                        <div class="valeur-stat" id="stat-vehicules-disponibles">-</div>
+                        <div class="libelle-stat">Véhicules disponibles</div>
+                        <div class="tendance" id="tendance-vehicules-disponibles"></div>
+                    </div>
+                </a>
             </div>
             <div class="col">
-                <div class="carte-stat">
-                    <div class="icone-stat" style="background:#e9f7ef; color:#16a34a;"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div class="valeur-stat" id="stat-reservations-cours">-</div>
-                    <div class="libelle-stat">Réservations en cours</div>
-                    <div class="tendance"><span class="contexte">en cours aujourd'hui</span></div>
-                </div>
+                <a href="../reservations.php" class="text-decoration-none text-reset">
+                    <div class="carte-stat">
+                        <div class="icone-stat" style="background:#e9f7ef; color:#16a34a;"><i class="fa-solid fa-calendar-check"></i></div>
+                        <div class="valeur-stat" id="stat-reservations-cours">-</div>
+                        <div class="libelle-stat">Réservations en cours</div>
+                        <div class="tendance"><span class="contexte">en cours aujourd'hui</span></div>
+                    </div>
+                </a>
             </div>
             <div class="col">
-                <div class="carte-stat">
-                    <div class="icone-stat" style="background:#fef3e2; color:#d97706;"><i class="fa-solid fa-sack-dollar"></i></div>
-                    <div class="valeur-stat" id="stat-ca-mois">-</div>
-                    <div class="libelle-stat">Chiffre d'affaires (mois)</div>
-                    <div class="tendance" id="tendance-ca-mois"></div>
-                </div>
+                <a href="../rapports.php" class="text-decoration-none text-reset">
+                    <div class="carte-stat">
+                        <div class="icone-stat" style="background:#fef3e2; color:#d97706;"><i class="fa-solid fa-sack-dollar"></i></div>
+                        <div class="valeur-stat" id="stat-ca-mois">-</div>
+                        <div class="libelle-stat">Chiffre d'affaires (mois)</div>
+                        <div class="tendance" id="tendance-ca-mois"></div>
+                    </div>
+                </a>
             </div>
             <div class="col">
-                <div class="carte-stat">
-                    <div class="icone-stat" style="background:#f1eafd; color:#7c3aed;"><i class="fa-solid fa-building-columns"></i></div>
-                    <div class="valeur-stat" id="stat-paiements-mois">-</div>
-                    <div class="libelle-stat">Paiements reçus (mois)</div>
-                    <div class="tendance" id="tendance-paiements-mois"></div>
-                </div>
+                <a href="../paiements.php" class="text-decoration-none text-reset">
+                    <div class="carte-stat">
+                        <div class="icone-stat" style="background:#f1eafd; color:#7c3aed;"><i class="fa-solid fa-building-columns"></i></div>
+                        <div class="valeur-stat" id="stat-paiements-mois">-</div>
+                        <div class="libelle-stat">Paiements reçus (mois)</div>
+                        <div class="tendance" id="tendance-paiements-mois"></div>
+                    </div>
+                </a>
             </div>
             <div class="col">
-                <div class="carte-stat">
-                    <div class="icone-stat" style="background:#fdeaea; color:#dc2626;"><i class="fa-solid fa-users"></i></div>
-                    <div class="valeur-stat" id="stat-nouveaux-clients">-</div>
-                    <div class="libelle-stat">Nouveaux clients (mois)</div>
-                    <div class="tendance" id="tendance-nouveaux-clients"></div>
-                </div>
+                <a href="../clients.php" class="text-decoration-none text-reset">
+                    <div class="carte-stat">
+                        <div class="icone-stat" style="background:#fdeaea; color:#dc2626;"><i class="fa-solid fa-users"></i></div>
+                        <div class="valeur-stat" id="stat-nouveaux-clients">-</div>
+                        <div class="libelle-stat">Nouveaux clients (mois)</div>
+                        <div class="tendance" id="tendance-nouveaux-clients"></div>
+                    </div>
+                </a>
             </div>
         </div>
  
@@ -175,7 +185,7 @@ $prefixeRacine = '../';
                 <div class="panneau">
                     <div class="entete-panneau">
                         <h6>Activités récentes</h6>
-                        <a href="#" class="lien-voir-tout">Voir toutes <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="../alertes.php" class="lien-voir-tout">Voir toutes <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                     <div id="liste-activites-recentes"></div>
                 </div>
@@ -185,7 +195,7 @@ $prefixeRacine = '../';
                 <div class="panneau">
                     <div class="entete-panneau">
                         <h6>Alertes</h6>
-                        <a href="#" class="lien-voir-tout">Voir toutes <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="../alertes.php" class="lien-voir-tout">Voir toutes <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                     <div id="liste-alertes"></div>
                 </div>
@@ -193,7 +203,7 @@ $prefixeRacine = '../';
                 <div class="panneau">
                     <div class="entete-panneau">
                         <h6>Top véhicules loués (mois)</h6>
-                        <a href="#" class="lien-voir-tout">Voir toutes <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="../rapports.php" class="lien-voir-tout">Voir rapport complet <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                     <ul class="liste-top-vehicules" id="liste-top-vehicules"></ul>
                 </div>
@@ -205,10 +215,10 @@ $prefixeRacine = '../';
     <script src="../assets/jquery/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/toastr/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="../assets/chartjs/chart.umd.min.js"></script>
     <script>
         if (typeof Chart === 'undefined') {
-            console.error("Chart.js ne s'est pas chargé depuis le CDN. Vérifie ta connexion internet ou un éventuel bloqueur de script.");
+            console.error("Chart.js n'a pas pu etre charge en local.");
         }
     </script>
     <script>const URL_CONNEXION = '../index.php';</script>
@@ -374,7 +384,7 @@ $prefixeRacine = '../';
             reponse.data.forEach(r => {
                 $corpsTable.append(`
                     <tr>
-                        <td>${r.id}</td>
+                        <td><a href="../reservations.php" class="text-decoration-none fw-bold" style="color:#2563eb;">${r.id}</a></td>
                         <td>${r.client}</td>
                         <td>${r.vehicule}</td>
                         <td>${r.periode}</td>
@@ -396,14 +406,14 @@ $prefixeRacine = '../';
             reponse.data.forEach(a => {
                 const style = stylesActivite[a.type] || { icone: 'fa-circle', couleur: '#f3f4f6', iconeCouleur: '#6b7280' };
                 $listeActivites.append(`
-                    <div class="item-activite">
+                    <a href="../alertes.php" class="item-activite text-decoration-none text-dark d-flex">
                         <div class="icone-activite" style="background:${style.couleur}; color:${style.iconeCouleur};"><i class="fa-solid ${style.icone}"></i></div>
                         <div class="texte-activite">
                             <div class="titre-activite">${a.titre}</div>
                             <div class="sous-activite">${a.sous}</div>
                         </div>
                         <div class="temps-activite">${a.temps}</div>
-                    </div>
+                    </a>
                 `);
             });
         }).fail(() => toastr.error("Impossible de charger les activités récentes.", 'Erreur'));
@@ -428,13 +438,13 @@ $prefixeRacine = '../';
             reponse.data.forEach(a => {
                 const style = stylesAlerte[a.type] || { icone: 'fa-circle-info', couleur: '#f3f4f6', iconeCouleur: '#6b7280' };
                 $listeAlertes.append(`
-                    <div class="item-alerte">
+                    <a href="../alertes.php" class="item-alerte text-decoration-none text-dark d-flex">
                         <div class="icone-activite" style="background:${style.couleur}; color:${style.iconeCouleur};"><i class="fa-solid ${style.icone}"></i></div>
                         <div class="texte-activite">
                             <div class="titre-activite">${a.titre}</div>
                             <div class="sous-activite">${a.sous}</div>
                         </div>
-                    </div>
+                    </a>
                 `);
             });
         }).fail(() => toastr.error("Impossible de charger les alertes.", 'Erreur'));
@@ -452,7 +462,7 @@ $prefixeRacine = '../';
                 $listeTop.append(`
                     <li>
                         <span class="rang-vehicule">${i + 1}</span>
-                        <span>${v.nom}</span>
+                        <a href="../vehicules.php" class="text-decoration-none text-dark flex-grow-1"><span>${v.nom}</span></a>
                         <span class="nb-locations-vehicule">${v.locations} locations</span>
                     </li>
                 `);

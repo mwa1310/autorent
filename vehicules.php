@@ -495,19 +495,24 @@
         $('#corps-table-vehicules').on('click', '.btn-archiver', function (e) {
             e.preventDefault();
             const id = $(this).data('id');
-            if (!window.confirm('Archiver ce véhicule ? Il ne sera plus proposé à la location, mais son historique est conservé.')) return;
-
-            $.ajax({
-                url: `api/vehicule_supprimer.php?id=${id}`, method: 'DELETE',
-                success: function (reponse) {
-                    toastr.success(reponse.message, 'Archivé');
-                    chargerListe(pageActuelle);
-                    chargerStats();
-                },
-                error: function (xhr) {
-                    const r = xhr.responseJSON || {};
-                    if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur');
-                }
+            confirmerAction({
+                titre: 'Archiver le véhicule',
+                message: 'Voulez-vous vraiment archiver ce véhicule ? Il ne sera plus proposé à la location, mais son historique est conservé.',
+                btnTexte: 'Archiver',
+                btnClasse: 'btn-danger'
+            }, function () {
+                $.ajax({
+                    url: `api/vehicule_supprimer.php?id=${id}`, method: 'DELETE',
+                    success: function (reponse) {
+                        toastr.success(reponse.message, 'Archivé');
+                        chargerListe(pageActuelle);
+                        chargerStats();
+                    },
+                    error: function (xhr) {
+                        const r = xhr.responseJSON || {};
+                        if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur');
+                    }
+                });
             });
         });
 

@@ -323,6 +323,7 @@
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis"></i></button>
                                         <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item btn-facture-resa" href="#" data-id="${res.id_reservation}"><i class="fa-solid fa-file-pdf me-2 text-danger"></i>Facture (PDF)</a></li>
                                             ${peutModifier ? `<li><a class="dropdown-item btn-editer-resa" href="#" data-id="${res.id_reservation}">Modifier</a></li>` : ''}
                                             ${peutAnnuler ? `<li><a class="dropdown-item btn-annuler-resa" href="#" data-id="${res.id_reservation}">Annuler</a></li>` : ''}
                                             ${estAdmin ? `<li><a class="dropdown-item text-danger btn-supprimer-resa" href="#" data-id="${res.id_reservation}">Supprimer</a></li>` : ''}
@@ -513,23 +514,56 @@
         $('#corps-table-reservations').on('click', '.btn-annuler-resa', function (e) {
             e.preventDefault();
             const id = $(this).data('id');
-            if (!window.confirm('Annuler cette réservation ?')) return;
-            $.ajax({
-                url: `api/reservation_annuler.php?id=${id}`, method: 'PUT',
-                success: function (r) { toastr.success(r.message, 'Annulée'); chargerListe(pageActuelle); chargerStats(); },
-                error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
+            confirmerAction({
+                titre: 'Annuler la réservation',
+                message: 'Voulez-vous vraiment annuler cette réservation ?',
+                btnTexte: 'Annuler la réservation',
+                btnClasse: 'btn-warning'
+            }, function () {
+                $.ajax({
+                    url: `api/reservation_annuler.php?id=${id}`, method: 'PUT',
+                    success: function (r) { toastr.success(r.message, 'Annulée'); chargerListe(pageActuelle); chargerStats(); },
+                    error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
+                });
             });
         });
 
         $('#corps-table-reservations').on('click', '.btn-supprimer-resa', function (e) {
             e.preventDefault();
             const id = $(this).data('id');
-            if (!window.confirm('Supprimer définitivement cette réservation ? Cette action est irréversible.')) return;
-            $.ajax({
-                url: `api/reservation_supprimer.php?id=${id}`, method: 'DELETE',
-                success: function (r) { toastr.success(r.message, 'Supprimée'); chargerListe(pageActuelle); chargerStats(); },
-                error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
+            confirmerAction({
+                titre: 'Supprimer la réservation',
+                message: 'Supprimer définitivement cette réservation ? Cette action est irréversible.',
+                btnTexte: 'Supprimer définitivement',
+                btnClasse: 'btn-danger'
+            }, function () {
+                $.ajax({
+                    url: `api/reservation_supprimer.php?id=${id}`, method: 'DELETE',
+                    success: function (r) { toastr.success(r.message, 'Supprimée'); chargerListe(pageActuelle); chargerStats(); },
+                    error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
+                });
             });
+        });
+
+        function ouvrirFacture(idResa) {
+            $.ajax({
+                url: 'api/facture_reservation_generer.php?id_reservation=' + idResa,
+                method: 'GET',
+                xhrFields: { responseType: 'blob' },
+                success: function (blob) {
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                },
+                error: function (xhr) {
+                    if (xhr.status !== 401) toastr.error("Impossible de générer la facture.", 'Erreur');
+                }
+            });
+        }
+
+        $('#corps-table-reservations').on('click', '.btn-facture-resa', function (e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            ouvrirFacture(id);
         });
 
         // -----------------------------------------------------------

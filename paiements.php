@@ -319,10 +319,9 @@
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis"></i></button>
                                         <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#" onclick="ouvrirRecu(${p.id_paie}); return false;"><i class="fa-solid fa-file-pdf me-2 text-danger"></i>Reçu (PDF)</a></li>
                                             <li><a class="dropdown-item btn-editer-pay" href="#" data-id="${p.id_paie}">Modifier</a></li>
-                                            ${estAdmin ? `<li><a class="dropdown-item text-danger btn-supprimer-pay" href="#" data-id="${p.id_paie}">Supprimer</a></li>
-                                            <li><button type="button" class="btn btn-sm btn-outline-secondary" onclick="ouvrirRecu(${p.id_paie})">
-                                            Imprimer le reçu</button></li>` : ''}
+                                            ${estAdmin ? `<li><a class="dropdown-item text-danger btn-supprimer-pay" href="#" data-id="${p.id_paie}">Supprimer</a></li>` : ''}
                                         </ul>
                                     </div>
                                 </td>
@@ -447,11 +446,17 @@
         $('#corps-table-paiements').on('click', '.btn-supprimer-pay', function (e) {
             e.preventDefault();
             const id = $(this).data('id');
-            if (!window.confirm('Supprimer définitivement ce paiement ?')) return;
-            $.ajax({
-                url: `api/paiement_supprimer.php?id=${id}`, method: 'DELETE',
-                success: function (r) { toastr.success(r.message, 'Supprimé'); chargerListe(pageActuelle); chargerStats(); },
-                error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
+            confirmerAction({
+                titre: 'Supprimer le paiement',
+                message: 'Voulez-vous vraiment supprimer définitivement ce paiement ?',
+                btnTexte: 'Supprimer',
+                btnClasse: 'btn-danger'
+            }, function () {
+                $.ajax({
+                    url: `api/paiement_supprimer.php?id=${id}`, method: 'DELETE',
+                    success: function (r) { toastr.success(r.message, 'Supprimé'); chargerListe(pageActuelle); chargerStats(); },
+                    error: function (xhr) { const r = xhr.responseJSON || {}; if (xhr.status !== 401) toastr.error(r.message || "Erreur.", 'Erreur'); }
+                });
             });
         });
 

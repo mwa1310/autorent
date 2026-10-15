@@ -158,7 +158,7 @@
     <script src="assets/jquery/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/toastr/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="assets/chartjs/chart.umd.min.js"></script>
     <script>const URL_CONNEXION = 'index.php';</script>
     <script src="assets/session.js"></script>
 
